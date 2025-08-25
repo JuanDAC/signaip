@@ -23,8 +23,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Skip all internal paths (_next)
+  // Skip all internal paths (_next), API routes, static assets, and image optimization
   matcher: [
-    '/((?!_next|api|favicon.ico).*)',
+    '/((?!_next|api|favicon.ico|logo.webp|.*\\.(?:jpg|jpeg|gif|png|webp|svg|ico)$).*)',
   ],
 };
