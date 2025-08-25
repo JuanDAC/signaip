@@ -1,6 +1,7 @@
 'use client'
 import { Stepper } from './Stepper';
 import { useBrandsTranslation, useCommonTranslation } from '@/modules/shared/hooks/useTranslation';
+import { useCreateBrandForm } from '../hooks/useCreateBrandForm';
 
 export const CreateBrandForm = () => {
     const { step, brandName, owner, handleBrandNameChange, handleOwnerChange, handleNext, handleBack, handleSubmit } = useCreateBrandForm();
@@ -59,8 +60,8 @@ export const CreateBrandForm = () => {
                 <div>
                     <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-4 sm:mb-6 text-center text-gray-500">{tCommon('confirm')}</h3>
                     <div className="bg-gray-100 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6">
-                        <p className="mb-2 text-gray-500 text-sm sm:text-base"><strong>{t('form.name')}:</strong> {marca}</p>
-                        <p className="text-gray-500 text-sm sm:text-base"><strong>{t('form.owner')}:</strong> {titular}</p>
+                        <p className="mb-2 text-gray-500 text-sm sm:text-base"><strong>{t('form.name')}:</strong> {brandName}</p>
+                        <p className="text-gray-500 text-sm sm:text-base"><strong>{t('form.owner')}:</strong> {owner}</p>
                     </div>
                     <div className="flex flex-col sm:flex-row justify-between space-y-3 sm:space-y-0">
                         <button type="button" onClick={handleBack} className="bg-gray-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base order-2 sm:order-1">
