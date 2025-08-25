@@ -3,10 +3,11 @@ import { useServiceWorker } from './useServiceWorker';
 import { useIndexedDB } from './useIndexedDB';
 
 interface Brand {
-  id: number;
+  id: string; // Changed from number to string for UUID
   name: string;
   owner: string;
   status: string;
+  lang: string; // Added lang field for backend compatibility
   createdAt: string;
   updatedAt: string;
 }
@@ -18,8 +19,8 @@ interface OfflineDataState {
   isOnline: boolean;
   isBackendOffline: boolean;
   addBrand: (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
-  updateBrand: (id: number, updates: Partial<Brand>) => Promise<void>;
-  deleteBrand: (id: number) => Promise<void>;
+  updateBrand: (id: string, updates: Partial<Brand>) => Promise<void>; // Changed parameter type to string
+  deleteBrand: (id: string) => Promise<void>; // Changed parameter type to string
   refreshData: () => Promise<void>;
   syncOfflineData: () => Promise<void>;
   checkBackendStatus: () => Promise<boolean>;
@@ -191,7 +192,7 @@ export const useOfflineData = (): OfflineDataState => {
   }, [isBackendOffline, addBrandToDB]);
 
   // Actualizar marca
-  const updateBrand = useCallback(async (id: number, updates: Partial<Brand>) => {
+  const updateBrand = useCallback(async (id: string, updates: Partial<Brand>) => {
     try {
       setError(null);
 
@@ -228,7 +229,7 @@ export const useOfflineData = (): OfflineDataState => {
   }, [isBackendOffline, updateBrandInDB]);
 
   // Eliminar marca
-  const deleteBrand = useCallback(async (id: number) => {
+  const deleteBrand = useCallback(async (id: string) => {
     try {
       setError(null);
 
@@ -278,6 +279,7 @@ export const useOfflineData = (): OfflineDataState => {
         await loadFromAPI();
       } catch (err) {
         console.error('Error syncing offline data:', err);
+        setError('Failed to sync offline data');
       }
     }
   }, [isBackendOffline, loadFromAPI]);

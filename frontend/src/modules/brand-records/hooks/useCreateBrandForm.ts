@@ -36,7 +36,8 @@ export const useCreateBrandForm = () => {
             await addBrand({ 
                 name: brandName, 
                 owner: owner, 
-                status: 'Pendiente' 
+                status: 'Pendiente',
+                lang: lang
             });
             
             const successMessage = isBackendOffline 

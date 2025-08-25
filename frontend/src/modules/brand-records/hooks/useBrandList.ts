@@ -14,7 +14,7 @@ export const useBrandList = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            await deleteBrand(parseInt(id));
+            await deleteBrand(id);
         } catch (error) {
             console.error('Failed to delete brand:', error);
             throw error;
@@ -23,7 +23,7 @@ export const useBrandList = () => {
 
     const handleUpdate = async (id: string, newEstado: string) => {
         try {
-            await updateBrand(parseInt(id), { status: newEstado });
+            await updateBrand(id, { status: newEstado });
         } catch (error) {
             console.error('Failed to update brand:', error);
             throw error;

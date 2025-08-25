@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
 interface Brand {
-  id: number;
+  id: string; // Changed from number to string for UUID
   name: string;
   owner: string;
   status: string;
+  lang: string; // Added lang field for backend compatibility
   createdAt: string;
   updatedAt: string;
 }
@@ -12,11 +13,11 @@ interface Brand {
 interface IndexedDBState {
   isReady: boolean;
   error: string | null;
-  addBrand: (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>) => Promise<number>;
+  addBrand: (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>) => Promise<string>; // Changed return type to string
   getBrands: () => Promise<Brand[]>;
-  getBrand: (id: number) => Promise<Brand | undefined>;
-  updateBrand: (id: number, updates: Partial<Brand>) => Promise<void>;
-  deleteBrand: (id: number) => Promise<void>;
+  getBrand: (id: string) => Promise<Brand | undefined>; // Changed parameter type to string
+  updateBrand: (id: string, updates: Partial<Brand>) => Promise<void>; // Changed parameter type to string
+  deleteBrand: (id: string) => Promise<void>; // Changed parameter type to string
   clearBrands: () => Promise<void>;
   migrateAndCleanData: () => Promise<void>;
 }
@@ -28,7 +29,7 @@ export const useIndexedDB = (): IndexedDBState => {
   // Abrir conexión a IndexedDB
   const openDB = useCallback((): Promise<IDBDatabase> => {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open('TrademarkDB', 2); // Incrementar versión para forzar migración
+      const request = indexedDB.open('TrademarkDB', 3); // Increment version for UUID migration
       
       request.onerror = () => reject(request.error);
       request.onsuccess = () => resolve(request.result);
@@ -40,22 +41,22 @@ export const useIndexedDB = (): IndexedDBState => {
         // Crear store para marcas si no existe
         if (!db.objectStoreNames.contains('brands')) {
           const brandStore = db.createObjectStore('brands', { 
-            keyPath: 'id', 
-            autoIncrement: true 
+            keyPath: 'id' // No autoIncrement for UUID
           });
           brandStore.createIndex('name', 'name', { unique: false });
           brandStore.createIndex('status', 'status', { unique: false });
           brandStore.createIndex('owner', 'owner', { unique: false });
+          brandStore.createIndex('lang', 'lang', { unique: false }); // Added lang index
           brandStore.createIndex('createdAt', 'createdAt', { unique: false });
-        } else if (oldVersion < 2) {
-          // Migrar datos existentes
+        } else if (oldVersion < 3) {
+          // Migrar datos existentes para UUID
           const transaction = (event.target as IDBOpenDBRequest).transaction;
           if (transaction) {
             const brandStore = transaction.objectStore('brands');
             
             // Limpiar datos existentes con estructura incorrecta
             brandStore.clear();
-            console.log('Cleared old data structure for migration');
+            console.log('Cleared old data structure for UUID migration');
           }
         }
       };
@@ -71,7 +72,7 @@ export const useIndexedDB = (): IndexedDBState => {
       
       // Limpiar todos los datos existentes
       await store.clear();
-      console.log('Data migrated and cleaned successfully');
+      console.log('Data migrated and cleaned successfully for UUID structure');
       
       // Esperar a que la transacción se complete
       return new Promise<void>((resolve, reject) => {
@@ -85,14 +86,18 @@ export const useIndexedDB = (): IndexedDBState => {
   }, [openDB]);
 
   // Agregar marca
-  const addBrand = useCallback(async (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>): Promise<number> => {
+  const addBrand = useCallback(async (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> => {
     try {
       const db = await openDB();
       const transaction = db.transaction(['brands'], 'readwrite');
       const store = transaction.objectStore('brands');
       
+      // Generar UUID para la nueva marca
+      const newId = crypto.randomUUID();
+      
       const newBrand = {
         ...brand,
+        id: newId,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -100,7 +105,7 @@ export const useIndexedDB = (): IndexedDBState => {
       const request = store.add(newBrand);
       
       return new Promise((resolve, reject) => {
-        request.onsuccess = () => resolve(request.result as number);
+        request.onsuccess = () => resolve(newId);
         request.onerror = () => reject(request.error);
       });
     } catch (err) {
@@ -128,7 +133,7 @@ export const useIndexedDB = (): IndexedDBState => {
   }, [openDB]);
 
   // Obtener marca por ID
-  const getBrand = useCallback(async (id: number): Promise<Brand | undefined> => {
+  const getBrand = useCallback(async (id: string): Promise<Brand | undefined> => {
     try {
       const db = await openDB();
       const transaction = db.transaction(['brands'], 'readonly');
@@ -146,7 +151,7 @@ export const useIndexedDB = (): IndexedDBState => {
   }, [openDB]);
 
   // Actualizar marca
-  const updateBrand = useCallback(async (id: number, updates: Partial<Brand>): Promise<void> => {
+  const updateBrand = useCallback(async (id: string, updates: Partial<Brand>): Promise<void> => {
     try {
       const db = await openDB();
       const transaction = db.transaction(['brands'], 'readwrite');
@@ -177,7 +182,7 @@ export const useIndexedDB = (): IndexedDBState => {
   }, [openDB, getBrand]);
 
   // Eliminar marca
-  const deleteBrand = useCallback(async (id: number): Promise<void> => {
+  const deleteBrand = useCallback(async (id: string): Promise<void> => {
     try {
       const db = await openDB();
       const transaction = db.transaction(['brands'], 'readwrite');

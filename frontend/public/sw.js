@@ -204,7 +204,7 @@ async function getFromIndexedDB(url) {
 // Abrir conexión a IndexedDB
 function openIndexedDB() {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open('TrademarkDB', 1);
+    const request = indexedDB.open('TrademarkDB', 3); // Increment version for UUID migration
     
     request.onerror = () => reject(request.error);
     request.onsuccess = () => resolve(request.result);
@@ -214,12 +214,11 @@ function openIndexedDB() {
       
       // Crear store para marcas si no existe
       if (!db.objectStoreNames.contains('brands')) {
-        // El id es un uuid, no autoincrement
-        const brandStore = db.createObjectStore('brands', { keyPath: 'id' });
+        const brandStore = db.createObjectStore('brands', { keyPath: 'id' }); // No autoIncrement for UUID
         brandStore.createIndex('name', 'name', { unique: false });
         brandStore.createIndex('status', 'status', { unique: false });
-
         brandStore.createIndex('owner', 'owner', { unique: false });
+        brandStore.createIndex('lang', 'lang', { unique: false }); // Added lang index
         brandStore.createIndex('createdAt', 'createdAt', { unique: false });
       }
     };
