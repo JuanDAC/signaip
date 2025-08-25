@@ -18,7 +18,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 interface LanguageProviderProps {
   children: ReactNode;
   initialLocale: string; // Requerido - viene de la URL
-  initialMessages: Record<string, Record<string, string>>; // Requerido - viene del servidor
+  initialMessages: Record<string, unknown>; // Requerido - viene del servidor
 }
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ 
@@ -27,7 +27,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   initialMessages
 }) => {
   const [currentLocale, setCurrentLocale] = useState<string>(initialLocale);
-  const [messages] = useState<Record<string, Record<string, string>>>(initialMessages);
+  const [messages] = useState<Record<string, unknown>>(initialMessages);
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,7 +50,12 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   
       const path = [...namespaceParts, ...keyParts].filter(Boolean);
   
-      const result = path.reduce((acc, curr) => acc[curr], messages);
+      const result = path.reduce((acc: unknown, curr: string) => {
+        if (typeof acc === 'object' && acc !== null && curr in acc) {
+          return (acc as Record<string, unknown>)[curr];
+        }
+        return undefined;
+      }, messages);
   
       return (result as unknown as string) || key;
   

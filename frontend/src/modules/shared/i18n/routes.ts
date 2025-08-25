@@ -1,5 +1,5 @@
 import { fallbackLng, languages } from './settings';
-import { loadRouteConfig, getLocalizedRoute as getLocalizedRouteFromConfig, isValidRoute, getNavigationMenu as getNavigationMenuFromConfig } from './routes/index';
+import { loadRouteConfig, getLocalizedRoute as getLocalizedRouteFromConfig, getNavigationMenu as getNavigationMenuFromConfig } from './routes/index';
 
 // Configuración de rutas por idioma (mantener para compatibilidad)
 export const routeConfig = {
@@ -108,12 +108,12 @@ export function isValidRouteForLangSync(
 
   // Validar sección
   const validSections = Object.values(config.sections);
-  if (!validSections.includes(section as string)) return false;
+  if (!validSections.includes(section as keyof typeof config.sections)) return false;
 
   // Validar acción si existe
   if (action) {
     const validActions = Object.values(config.actions);
-    if (!validActions.includes(action as string)) return false;
+    if (!validActions.includes(action as keyof typeof config.actions)) return false;
   }
 
   return true;
@@ -127,12 +127,12 @@ export async function getAllValidRoutesAsync(): Promise<Array<{ lang: string; se
     try {
       const config = await loadRouteConfig(lang);
       
-      Object.entries(config.sections).forEach(([sectionKey, section]) => {
+      Object.entries(config.sections).forEach(([, section]) => {
         // Rutas sin acción
         routes.push({ lang, section: section.path });
         
         // Rutas con acción
-        Object.entries(section.actions).forEach(([actionKey, action]) => {
+        Object.entries(section.actions).forEach(([, action]) => {
           routes.push({ lang, section: section.path, action: action.path });
         });
       });
