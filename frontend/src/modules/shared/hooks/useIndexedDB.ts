@@ -68,18 +68,11 @@ export const useIndexedDB = (): IndexedDBState => {
   const migrateAndCleanData = useCallback(async (): Promise<void> => {
     try {
       const db = await openDB();
-      const transaction = db.transaction(['brands'], 'readwrite');
-      const store = transaction.objectStore('brands');
       
-      // Limpiar todos los datos existentes
-      await store.clear();
-      console.log('Data migrated and cleaned successfully for UUID structure');
+      // Solo limpiar datos si es necesario para la migración
+      // La migración ya se maneja en onupgradeneeded
+      console.log('Migration check completed, keeping existing data');
       
-      // Esperar a que la transacción se complete
-      return new Promise<void>((resolve, reject) => {
-        transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
-      });
     } catch (err) {
       console.error('Error migrating data:', err);
       throw err;
