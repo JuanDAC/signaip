@@ -1,11 +1,11 @@
 -- Initialize brands database
 -- This script runs when the PostgreSQL container starts for the first time
-
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Create brands table if it doesn't exist
 CREATE TABLE IF NOT EXISTS brands (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
     owner VARCHAR(255) NOT NULL,
     lang VARCHAR(10) NOT NULL,
     status VARCHAR(50) DEFAULT 'Pendiente',
