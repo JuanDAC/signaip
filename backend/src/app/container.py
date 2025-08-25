@@ -4,7 +4,7 @@ from app.domain.ports.brand_port import BrandPort
 from app.domain.ports.auth_port import AuthPort
 from app.adapters.db.repositories.brand_repository import BrandRepository
 from app.adapters.auth.auth_adapter import SimpleAuthAdapter
-from app.domain.services.brand_service import BrandService
+from app.domain.use_cases.brand_use_case import BrandUseCase
 from app.config import settings
 
 class AppModule(Module):
@@ -20,7 +20,7 @@ class AppModule(Module):
             # Para producción, crear sin sesión (se manejará en las rutas)
             binder.bind(BrandPort, to=BrandRepository(), scope=singleton)
         
-        binder.bind(BrandService, to=BrandService, scope=singleton)
+        binder.bind(BrandUseCase, to=BrandUseCase, scope=singleton)
         
         # Binding para autenticación
         binder.bind(AuthPort, to=SimpleAuthAdapter(valid_key=settings.API_KEY), scope=singleton)

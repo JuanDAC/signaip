@@ -3,7 +3,7 @@ from injector import Injector
 from app.container import AppModule, injector
 from app.domain.ports.brand_port import BrandPort
 from app.domain.ports.auth_port import AuthPort
-from app.domain.services.brand_service import BrandService
+from app.domain.use_cases.brand_use_case import BrandUseCase
 from app.adapters.db.repositories.brand_repository import BrandRepository
 from app.adapters.auth.auth_adapter import SimpleAuthAdapter
 
@@ -37,24 +37,24 @@ class TestContainer:
         assert auth_port is not None
         assert isinstance(auth_port, SimpleAuthAdapter)
     
-    def test_brand_service_binding(self):
-        """Test: verificar que BrandService está correctamente bindeado"""
+    def test_brand_use_case_binding(self):
+        """Test: verificar que BrandUseCase está correctamente bindeado"""
         # Act
-        brand_service = injector.get(BrandService)
+        brand_use_case = injector.get(BrandUseCase)
         
         # Assert
-        assert brand_service is not None
-        assert isinstance(brand_service, BrandService)
+        assert brand_use_case is not None
+        assert isinstance(brand_use_case, BrandUseCase)
     
-    def test_brand_service_dependency_injection(self):
-        """Test: verificar que BrandService recibe sus dependencias correctamente"""
+    def test_brand_use_case_dependency_injection(self):
+        """Test: verificar que BrandUseCase recibe sus dependencias correctamente"""
         # Act
-        brand_service = injector.get(BrandService)
+        brand_use_case = injector.get(BrandUseCase)
         
         # Assert
-        assert hasattr(brand_service, 'repo')
-        assert brand_service.repo is not None
-        assert isinstance(brand_service.repo, BrandRepository)
+        assert hasattr(brand_use_case, 'repo')
+        assert brand_use_case.repo is not None
+        assert isinstance(brand_use_case.repo, BrandRepository)
     
     def test_auth_adapter_configuration(self):
         """Test: verificar que SimpleAuthAdapter está configurado con la API key correcta"""
@@ -74,33 +74,33 @@ class TestContainer:
         auth_port1 = injector.get(AuthPort)
         auth_port2 = injector.get(AuthPort)
         
-        brand_service1 = injector.get(BrandService)
-        brand_service2 = injector.get(BrandService)
+        brand_use_case1 = injector.get(BrandUseCase)
+        brand_use_case2 = injector.get(BrandUseCase)
         
         # Assert
         assert brand_port1 is brand_port2
         assert auth_port1 is auth_port2
-        assert brand_service1 is brand_service2
+        assert brand_use_case1 is brand_use_case2
     
-    def test_brand_service_functionality_with_injected_deps(self):
-        """Test: verificar que BrandService funciona correctamente con dependencias inyectadas"""
+    def test_brand_use_case_functionality_with_injected_deps(self):
+        """Test: verificar que BrandUseCase funciona correctamente con dependencias inyectadas"""
         # Act
-        brand_service = injector.get(BrandService)
+        brand_use_case = injector.get(BrandUseCase)
         
         # Assert
         # Verificar que los métodos están disponibles
-        assert hasattr(brand_service, 'list_brands')
-        assert hasattr(brand_service, 'get_brand')
-        assert hasattr(brand_service, 'create_brand')
-        assert hasattr(brand_service, 'update_brand')
-        assert hasattr(brand_service, 'delete_brand')
+        assert hasattr(brand_use_case, 'list_brands')
+        assert hasattr(brand_use_case, 'get_brand')
+        assert hasattr(brand_use_case, 'create_brand')
+        assert hasattr(brand_use_case, 'update_brand')
+        assert hasattr(brand_use_case, 'delete_brand')
         
         # Verificar que los métodos son callable
-        assert callable(brand_service.list_brands)
-        assert callable(brand_service.get_brand)
-        assert callable(brand_service.create_brand)
-        assert callable(brand_service.update_brand)
-        assert callable(brand_service.delete_brand)
+        assert callable(brand_use_case.list_brands)
+        assert callable(brand_use_case.get_brand)
+        assert callable(brand_use_case.create_brand)
+        assert callable(brand_use_case.update_brand)
+        assert callable(brand_use_case.delete_brand)
     
     def test_repository_implements_port_interface(self):
         """Test: verificar que el repositorio implementa correctamente la interfaz"""
@@ -145,15 +145,15 @@ class TestContainer:
     def test_dependency_resolution_order(self):
         """Test: verificar que las dependencias se resuelven en el orden correcto"""
         # Act
-        # Primero obtener el servicio
-        brand_service = injector.get(BrandService)
+        # Primero obtener el caso de uso
+        brand_use_case = injector.get(BrandUseCase)
         
         # Luego obtener el repositorio directamente
         brand_port = injector.get(BrandPort)
         
         # Assert
-        # Verificar que el servicio tiene el repositorio correcto
-        assert brand_service.repo is brand_port
+        # Verificar que el caso de uso tiene el repositorio correcto
+        assert brand_use_case.repo is brand_port
     
     def test_container_error_handling(self):
         """Test: verificar que el contenedor maneja errores correctamente"""
@@ -162,7 +162,7 @@ class TestContainer:
         # El contenedor de injector puede retornar valores inesperados para tipos no registrados
         result = injector.get(str)  # str no está registrado en el contenedor
         # Verificar que no es una instancia válida de los tipos registrados
-        assert not isinstance(result, (BrandRepository, SimpleAuthAdapter, BrandService))
+        assert not isinstance(result, (BrandRepository, SimpleAuthAdapter, BrandUseCase))
     
     def test_multiple_container_instances(self):
         """Test: verificar que múltiples instancias del contenedor funcionan independientemente"""

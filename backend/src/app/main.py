@@ -33,8 +33,6 @@ app.add_middleware(
 # Incluir las rutas
 app.include_router(brand_router, prefix="/api/v1", tags=["Marcas"])
 
-
-
 @app.get("/")
 def read_root():
     return {"message": "API de Registro de Marcas - Backend Hexagonal con FastAPI"}
