@@ -7,7 +7,7 @@ export const Sidebar = () => {
     <aside className="p-4 sm:p-6">
       <div className="mb-6 sm:mb-8">
         <Image 
-          src="https://www.signaip.com/_next/image?url=%2Fnavbar%2Flogo.png&w=384&q=75" 
+          src="/logo.webp" 
           alt="Brand Manager" 
           width={200} 
           height={100} 
