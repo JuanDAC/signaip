@@ -1,5 +1,4 @@
 import { BrandList } from "@/modules/brand-records/components/BrandList";
-import { LanguageSelector } from "@/modules/shared/components/LanguageSelector";
 import { redirect } from "next/navigation";
 import { isValidRouteForLang } from '@/modules/shared/i18n/routes';
 import { serverTranslation } from "@/modules/shared/i18n/server";

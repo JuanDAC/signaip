@@ -102,7 +102,7 @@ export async function getLocalizedRoute(
 
   // Encontrar la sección actual en la configuración del idioma actual
   const currentSectionConfig = Object.entries(currentConfig.sections).find(
-    ([_, section]) => section.path === currentSection
+    ([, section]) => section.path === currentSection
   );
 
   if (!currentSectionConfig) {
@@ -123,7 +123,7 @@ export async function getLocalizedRoute(
   // Agregar la acción si existe
   if (currentAction) {
     const currentActionConfig = Object.entries(currentSectionConfig[1].actions).find(
-      ([_, action]) => action.path === currentAction
+      ([, action]) => action.path === currentAction
     );
 
     if (currentActionConfig) {

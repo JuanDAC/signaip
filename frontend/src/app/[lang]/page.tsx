@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { fallbackLng } from '@/modules/shared/i18n/settings';
 
 export default async function HomePage({
   params,

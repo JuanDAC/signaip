@@ -3,12 +3,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 export const useTranslation = (namespace?: string) => {
   const { t, currentLocale, locales, isHydrated } = useLanguage();
 
-  const translate = (key: string, params?: Record<string, any>): string => {
+  const translate = (key: string, params?: Record<string, string | number>): string => {
     let translation = t(key, namespace);
     
     if (params) {
       Object.keys(params).forEach(param => {
-        translation = translation.replace(`{${param}}`, params[param]);
+        translation = translation.replace(`{${param}}`, String(params[param]));
       });
     }
     

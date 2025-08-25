@@ -97,25 +97,10 @@ export function getLocalizedRouteSync(
   return url;
 }
 
-// Función para validar si una ruta es válida para un idioma (nueva implementación)
-export async function isValidRouteForLangAsync(
-  lang: string, 
-  section: string, 
-  action?: string
-): Promise<boolean> {
-  try {
-    return await isValidRoute(lang, section, action);
-  } catch (error) {
-    console.error('Error validating route:', error);
-    // Fallback a la implementación anterior
-    return isValidRouteForLangSync(lang, section, action);
-  }
-}
-
-// Función para validar si una ruta es válida para un idioma (implementación anterior - mantener para compatibilidad)
+// Función para validar si una ruta es válida para un idioma específico
 export function isValidRouteForLangSync(
-  lang: string, 
-  section: string, 
+  lang: string,
+  section: string,
   action?: string
 ): boolean {
   const config = routeConfig[lang as keyof typeof routeConfig];
@@ -123,12 +108,12 @@ export function isValidRouteForLangSync(
 
   // Validar sección
   const validSections = Object.values(config.sections);
-  if (!validSections.includes(section as any)) return false;
+  if (!validSections.includes(section as string)) return false;
 
   // Validar acción si existe
   if (action) {
     const validActions = Object.values(config.actions);
-    if (!validActions.includes(action as any)) return false;
+    if (!validActions.includes(action as string)) return false;
   }
 
   return true;
@@ -202,8 +187,8 @@ export function getNavigationMenuSync(locale: string) {
     title: section,
     description: section,
     icon: '📄',
-    actions: Object.entries(config.actions).map(([actionKey, action]) => ({
-      key: actionKey,
+    actions: Object.entries(config.actions).map(([, action]) => ({
+      key: action,
       path: action,
       title: action,
       description: action,

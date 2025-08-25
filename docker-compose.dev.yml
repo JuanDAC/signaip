@@ -7,19 +7,19 @@ services:
     env_file:
       - env.dev
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-brands_db}
+      POSTGRES_USER: ${POSTGRES_USER:-brands_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-brands_password}
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      - "${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}"
     networks:
-      - ${DOCKER_NETWORK_NAME}
+      - ${DOCKER_NETWORK_NAME:-brands_network_dev}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-brands_user} -d ${POSTGRES_DB:-brands_db}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -34,23 +34,23 @@ services:
     env_file:
       - env.dev
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - API_KEY=${BACKEND_API_KEY}
-      - ENVIRONMENT=${BACKEND_ENVIRONMENT}
-      - PORT=${BACKEND_PORT}
-      - HOST=${BACKEND_HOST}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://brands_user:brands_password@postgres:5432/brands_db}
+      - API_KEY=${BACKEND_API_KEY:-super-secret-key-123}
+      - ENVIRONMENT=${BACKEND_ENVIRONMENT:-development}
+      - PORT=${BACKEND_PORT:-8000}
+      - HOST=${BACKEND_HOST:-backend}
     ports:
-      - "${BACKEND_EXTERNAL_PORT}:${BACKEND_PORT}"
+      - "${BACKEND_EXTERNAL_PORT:-8001}:${BACKEND_PORT:-8000}"
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - ${DOCKER_NETWORK_NAME}
+      - ${DOCKER_NETWORK_NAME:-brands_network_dev}
     volumes:
       - ./backend:/app
       - /app/__pycache__
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${BACKEND_PORT}/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:${BACKEND_PORT:-8000}/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -65,28 +65,28 @@ services:
     env_file:
       - env.dev
     environment:
-      - NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL}/api/v1
-      - NEXT_PUBLIC_API_KEY=${FRONTEND_API_KEY}
-      - NEXT_PUBLIC_FRONTEND_URL=${FRONTEND_EXTERNAL_URL}
-      - NEXT_PUBLIC_BACKEND_EXTERNAL_URL=${BACKEND_EXTERNAL_URL}
-      - WATCHPACK_POLLING=${WATCHPACK_POLLING}
-      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING}
-      - NODE_ENV=${NODE_ENV}
-      - PORT=${FRONTEND_PORT}
-      - HOST=${FRONTEND_HOST}
+      - NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL:-http://backend:8000}/api/v1
+      - NEXT_PUBLIC_API_KEY=${FRONTEND_API_KEY:-super-secret-key-123}
+      - NEXT_PUBLIC_FRONTEND_URL=${FRONTEND_EXTERNAL_URL:-http://localhost:3001}
+      - NEXT_PUBLIC_BACKEND_EXTERNAL_URL=${BACKEND_EXTERNAL_URL:-http://localhost:8001}
+      - WATCHPACK_POLLING=${WATCHPACK_POLLING:-true}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING:-true}
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=${FRONTEND_PORT:-3000}
+      - HOST=${FRONTEND_HOST:-frontend}
     ports:
-      - "${FRONTEND_EXTERNAL_PORT}:${FRONTEND_PORT}"
+      - "${FRONTEND_EXTERNAL_PORT:-3001}:${FRONTEND_PORT:-3000}"
     depends_on:
       backend:
         condition: service_healthy
     networks:
-      - ${DOCKER_NETWORK_NAME}
+      - ${DOCKER_NETWORK_NAME:-brands_network_dev}
     volumes:
       - ./frontend:/app
       - /app/node_modules
       - /app/.next
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${FRONTEND_PORT}/"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${FRONTEND_PORT:-3000}/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -96,8 +96,8 @@ volumes:
     driver: local
 
 networks:
-  ${DOCKER_NETWORK_NAME}:
+  ${DOCKER_NETWORK_NAME:-brands_network_dev}:
     driver: bridge
     ipam:
       config:
-        - subnet: ${DOCKER_SUBNET}
+        - subnet: ${DOCKER_SUBNET:-172.21.0.0/16}

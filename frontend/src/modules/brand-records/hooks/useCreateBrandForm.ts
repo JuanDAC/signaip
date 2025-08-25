@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { brandAPI } from '../api/brandAPI';
-import { useBrandsTranslation, useCommonTranslation } from '@/modules/shared/hooks/useTranslation';
+import { useBrandsTranslation } from '@/modules/shared/hooks/useTranslation';
 
 export const useCreateBrandForm = () => {
     const [step, setStep] = useState(1);
@@ -10,7 +10,6 @@ export const useCreateBrandForm = () => {
     const [owner, setOwner] = useState('');
     const router = useRouter();
     const { t } = useBrandsTranslation();
-    const { t: tCommon } = useCommonTranslation();
 
     const handleNext = () => {
         if (step === 1 && brandName) {

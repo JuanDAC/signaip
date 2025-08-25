@@ -13,7 +13,7 @@ import routes_es from './routes/es.json';
 
 // Add more namespaces here as needed
 
-const TRANSLATION_MAP: Record<string, Record<string, any>> = {
+const TRANSLATION_MAP: Record<string, Record<string, Record<string, unknown>>> = {
   '': {
     en,
     es,
@@ -68,8 +68,13 @@ export function isValidLocale(locale: string): boolean {
 export async function serverTranslation(locale: string, route: string = '') {
   const messages = await getServerTranslations(locale, route);
   const t = (key: string, namespace: string = '') => {
-    const params =[...namespace.split('.'), ...key.split('.')].filter(Boolean);
-    const value = params.reduce((acc, param) => acc[param], messages) as string;
+    const params = [...namespace.split('.'), ...key.split('.')].filter(Boolean);
+    const value = params.reduce((acc: unknown, param: string) => {
+      if (typeof acc === 'object' && acc !== null && param in acc) {
+        return (acc as Record<string, unknown>)[param];
+      }
+      return undefined;
+    }, messages) as string;
     if (!value) {
       throw new Error(`Translation not found for ${key} in ${namespace}`);
     }

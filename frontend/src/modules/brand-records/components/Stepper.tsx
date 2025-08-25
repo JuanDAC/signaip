@@ -1,5 +1,4 @@
 'use client'
-import { useState } from 'react';
 import { useStepperTranslation } from '@/modules/shared/hooks/useTranslation';
 
 export const Stepper = ({ currentStep }: { currentStep: number }) => {
