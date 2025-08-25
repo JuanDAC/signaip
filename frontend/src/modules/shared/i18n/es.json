@@ -44,8 +44,11 @@
     },
     "success": {
       "brandCreated": "Marca creada correctamente",
+      "brandCreatedOffline": "Marca creada offline. Se sincronizará cuando el backend esté disponible.",
       "brandUpdated": "Marca actualizada correctamente",
-      "brandDeleted": "Marca eliminada correctamente"
+      "brandUpdatedOffline": "Marca actualizada offline. Se sincronizará cuando el backend esté disponible.",
+      "brandDeleted": "Marca eliminada correctamente",
+      "brandDeletedOffline": "Marca eliminada offline. Se sincronizará cuando el backend esté disponible."
     },
     "actions": {
       "delete": "Eliminar",

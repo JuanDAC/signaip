@@ -38,7 +38,8 @@ export const useOfflineData = (): OfflineDataState => {
     addBrand: addBrandToDB, 
     getBrands: getBrandsFromDB, 
     updateBrand: updateBrandInDB, 
-    deleteBrand: deleteBrandFromDB 
+    deleteBrand: deleteBrandFromDB,
+    syncBrands: syncBrandsToDB
   } = useIndexedDB();
 
   // Verificar estado del backend
@@ -115,7 +116,7 @@ export const useOfflineData = (): OfflineDataState => {
         setBrands(apiBrands);
         
         // Sincronizar con IndexedDB
-        await syncToIndexedDB(apiBrands);
+        await syncBrandsToDB(apiBrands);
         setIsBackendOffline(false);
       } else {
         throw new Error('Failed to fetch brands from API');
@@ -125,7 +126,7 @@ export const useOfflineData = (): OfflineDataState => {
       setIsBackendOffline(true);
       throw new Error('API request failed');
     }
-  }, []);
+  }, [syncBrandsToDB]);
 
   // Cargar datos offline desde IndexedDB
   const loadOfflineData = useCallback(async () => {
@@ -138,19 +139,6 @@ export const useOfflineData = (): OfflineDataState => {
       setError('Failed to load offline data');
     }
   }, [getBrandsFromDB]);
-
-  // Sincronizar datos con IndexedDB
-  const syncToIndexedDB = useCallback(async (brandsData: Brand[]) => {
-    try {
-      // Limpiar datos existentes y agregar nuevos
-      for (const brand of brandsData) {
-        await addBrandToDB(brand);
-      }
-      console.log('Data synced to IndexedDB');
-    } catch (err) {
-      console.error('Error syncing to IndexedDB:', err);
-    }
-  }, [addBrandToDB]);
 
   // Agregar marca
   const addBrand = useCallback(async (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>) => {

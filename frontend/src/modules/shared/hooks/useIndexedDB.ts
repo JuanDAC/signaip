@@ -20,6 +20,7 @@ interface IndexedDBState {
   deleteBrand: (id: string) => Promise<void>; // Changed parameter type to string
   clearBrands: () => Promise<void>;
   migrateAndCleanData: () => Promise<void>;
+  syncBrands: (brands: Brand[]) => Promise<void>; // Added sync function
 }
 
 export const useIndexedDB = (): IndexedDBState => {
@@ -217,6 +218,35 @@ export const useIndexedDB = (): IndexedDBState => {
     }
   }, [openDB]);
 
+  // Sincronizar marcas sin sobrescribir
+  const syncBrands = useCallback(async (brands: Brand[]): Promise<void> => {
+    try {
+      const db = await openDB();
+      const transaction = db.transaction(['brands'], 'readwrite');
+      const store = transaction.objectStore('brands');
+      
+      // Obtener marcas existentes
+      const existingBrands = await getBrands();
+      const existingIds = new Set(existingBrands.map(brand => brand.id));
+      
+      // Sincronizar cada marca
+      for (const brand of brands) {
+        if (existingIds.has(brand.id)) {
+          // Actualizar marca existente
+          await store.put(brand);
+        } else {
+          // Agregar nueva marca
+          await store.add(brand);
+        }
+      }
+      
+      console.log('Brands synced successfully without overwriting');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error syncing brands');
+      throw err;
+    }
+  }, [openDB, getBrands]);
+
   // Inicializar IndexedDB
   useEffect(() => {
     const initDB = async () => {
@@ -245,5 +275,6 @@ export const useIndexedDB = (): IndexedDBState => {
     deleteBrand,
     clearBrands,
     migrateAndCleanData,
+    syncBrands,
   };
 };

@@ -44,8 +44,11 @@
     },
     "success": {
       "brandCreated": "Brand created successfully",
+      "brandCreatedOffline": "Brand created offline. Will sync when backend is back.",
       "brandUpdated": "Brand updated successfully",
-      "brandDeleted": "Brand deleted successfully"
+      "brandUpdatedOffline": "Brand updated offline. Will sync when backend is back.",
+      "brandDeleted": "Brand deleted successfully",
+      "brandDeletedOffline": "Brand deleted offline. Will sync when backend is back."
     },
     "actions": {
       "delete": "Delete",
