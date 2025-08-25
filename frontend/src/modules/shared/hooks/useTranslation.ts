@@ -7,7 +7,6 @@ export const useTranslation = (namespace?: string) => {
     
     let translation = t(key, namespace);
     
-    console.log(translation);
     if (params) {
       Object.keys(params).forEach(param => {
         translation = translation.replace(`{${param}}`, String(params[param]));
