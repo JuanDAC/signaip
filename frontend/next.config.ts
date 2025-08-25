@@ -7,10 +7,6 @@ const nextConfig: NextConfig = {
     domains: [],
     remotePatterns: [],
   },
-  // Asegurar que los assets estáticos se sirvan correctamente
-  experimental: {
-    outputFileTracingRoot: undefined,
-  },
 };
 
 export default nextConfig;
