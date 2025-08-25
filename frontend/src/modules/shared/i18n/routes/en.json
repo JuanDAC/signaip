@@ -1,0 +1,68 @@
+{
+  "sections": {
+    "dashboard": {
+      "path": "dashboard",
+      "title": "Dashboard",
+      "description": "Overview and analytics",
+      "icon": "📊",
+      "actions": {
+        "overview": {
+          "path": "overview",
+          "title": "Overview",
+          "description": "General dashboard overview"
+        },
+        "analytics": {
+          "path": "analytics",
+          "title": "Analytics",
+          "description": "Detailed analytics and reports"
+        }
+      }
+    },
+    "trademark-registration": {
+      "path": "trademark-registration",
+      "title": "Trademark Registration",
+      "description": "Manage trademark registrations",
+      "icon": "🏷️",
+      "actions": {
+        "list": {
+          "path": "list",
+          "title": "List",
+          "description": "View all trademarks"
+        },
+        "create": {
+          "path": "create",
+          "title": "Create",
+          "description": "Create new trademark"
+        },
+        "edit": {
+          "path": "edit",
+          "title": "Edit",
+          "description": "Edit existing trademark"
+        }
+      }
+    },
+    "reports": {
+      "path": "reports",
+      "title": "Reports",
+      "description": "Generate and view reports",
+      "icon": "📋",
+      "actions": {
+        "generate": {
+          "path": "generate",
+          "title": "Generate",
+          "description": "Generate new report"
+        },
+        "view": {
+          "path": "view",
+          "title": "View",
+          "description": "View existing reports"
+        },
+        "export": {
+          "path": "export",
+          "title": "Export",
+          "description": "Export reports"
+        }
+      }
+    }
+  }
+}

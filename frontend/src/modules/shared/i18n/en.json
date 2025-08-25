@@ -1,0 +1,97 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter"
+  },
+  "navigation": {
+    "home": "Home",
+    "brands": "Brands",
+    "trademarks": "Trademarks",
+    "settings": "Settings"
+  },
+  "header": {
+    "title": "Brand Manager",
+    "searchPlaceholder": "Search brands...",
+    "userProfile": "User Profile"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "brands": "Brand Management",
+    "reports": "Reports",
+    "analytics": "Analytics"
+  },
+  "brands": {
+    "title": "Brands",
+    "create": "Create New Brand",
+    "edit": "Edit Brand",
+    "delete": "Delete Brand",
+    "name": "Brand Name",
+    "description": "Description",
+    "status": "Status",
+    "registrationDate": "Registration Date",
+    "expiryDate": "Expiry Date",
+    "noBrands": "No brands found",
+    "listTitle": "Brand List",
+    "form": {
+      "name": "Brand Name",
+      "description": "Description",
+      "category": "Category",
+      "status": "Status",
+      "registrationDate": "Registration Date",
+      "expiryDate": "Expiry Date",
+      "owner": "Owner",
+      "country": "Country",
+      "trademarkNumber": "Trademark Number"
+    }
+  },
+  "stepper": {
+    "step1": "Basic Information",
+    "step2": "Documents",
+    "step3": "Review",
+    "step4": "Confirmation"
+  },
+  "homepage": {
+    "welcome": "Welcome to Brand Manager",
+    "description": "Professional system for brand management and trademark registration",
+    "stats": {
+      "totalBrands": "Total Brands",
+      "activeBrands": "Active Brands"
+    }
+  },
+  "dashboard": {
+    "overview": {
+      "title": "General Statistics",
+      "totalTrademarks": "Total Trademarks",
+      "activeBrands": "Active Brands",
+      "pendingBrands": "Pending Brands"
+    },
+    "analytics": {
+      "title": "Detailed Analytics",
+      "description": "Advanced analytics and reporting tools"
+    },
+    "reports": {
+      "title": "Reports",
+      "description": "Advanced analytics and reporting tools",
+      "actions": {
+        "generate": {
+          "title": "Generate Report",
+          "description": "Generate a report with the selected data"
+        },
+        "view": {
+          "title": "View Reports",
+          "description": "View existing reports"
+        },
+        "export": {
+          "title": "Export Reports",
+          "description": "Export reports in various formats"
+        }
+      }
+    }
+  }
+}

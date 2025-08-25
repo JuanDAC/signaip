@@ -1,0 +1,68 @@
+{
+  "sections": {
+    "dashboard": {
+      "path": "dashboard",
+      "title": "Panel de Control",
+      "description": "Vista general y análisis",
+      "icon": "📊",
+      "actions": {
+        "overview": {
+          "path": "vista-general",
+          "title": "Vista General",
+          "description": "Vista general del panel de control"
+        },
+        "analytics": {
+          "path": "analiticas",
+          "title": "Analíticas",
+          "description": "Análisis detallado y reportes"
+        }
+      }
+    },
+    "trademark-registration": {
+      "path": "registro-de-marca",
+      "title": "Registro de Marca",
+      "description": "Gestionar registros de marcas",
+      "icon": "🏷️",
+      "actions": {
+        "list": {
+          "path": "lista",
+          "title": "Lista",
+          "description": "Ver todas las marcas"
+        },
+        "create": {
+          "path": "crear",
+          "title": "Crear",
+          "description": "Crear nueva marca"
+        },
+        "edit": {
+          "path": "editar",
+          "title": "Editar",
+          "description": "Editar marca existente"
+        }
+      }
+    },
+    "reports": {
+      "path": "reportes",
+      "title": "Reportes",
+      "description": "Generar y ver reportes",
+      "icon": "📋",
+      "actions": {
+        "generate": {
+          "path": "generar",
+          "title": "Generar",
+          "description": "Generar nuevo reporte"
+        },
+        "view": {
+          "path": "ver",
+          "title": "Ver",
+          "description": "Ver reportes existentes"
+        },
+        "export": {
+          "path": "exportar",
+          "title": "Exportar",
+          "description": "Exportar reportes"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+# Development stage
+FROM node:18-alpine
+
+# Set work directory
+WORKDIR /app
+
+# Install nodemon globally for development
+RUN npm install -g nodemon
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including devDependencies)
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Health check for development
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+
+# Run the development server with nodemon for hot reload
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,97 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "create": "Crear",
+    "search": "Buscar",
+    "filter": "Filtrar"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "brands": "Marcas",
+    "trademarks": "Marcas Comerciales",
+    "settings": "Configuración"
+  },
+  "header": {
+    "title": "Gestor de Marcas",
+    "searchPlaceholder": "Buscar marcas...",
+    "userProfile": "Perfil de Usuario"
+  },
+  "sidebar": {
+    "dashboard": "Panel Principal",
+    "brands": "Gestión de Marcas",
+    "reports": "Reportes",
+    "analytics": "Analíticas"
+  },
+  "brands": {
+    "title": "Marcas",
+    "create": "Crear Nueva Marca",
+    "edit": "Editar Marca",
+    "delete": "Eliminar Marca",
+    "name": "Nombre de la Marca",
+    "description": "Descripción",
+    "status": "Estado",
+    "registrationDate": "Fecha de Registro",
+    "expiryDate": "Fecha de Vencimiento",
+    "noBrands": "No se encontraron marcas",
+    "listTitle": "Lista de Marcas",
+    "form": {
+      "name": "Nombre de la Marca",
+      "description": "Descripción",
+      "category": "Categoría",
+      "status": "Estado",
+      "registrationDate": "Fecha de Registro",
+      "expiryDate": "Fecha de Vencimiento",
+      "owner": "Propietario",
+      "country": "País",
+      "trademarkNumber": "Número de Marca"
+    }
+  },
+  "stepper": {
+    "step1": "Información Básica",
+    "step2": "Documentos",
+    "step3": "Revisión",
+    "step4": "Confirmación"
+  },
+  "homepage": {
+    "welcome": "Bienvenido al Gestor de Marcas",
+    "description": "Sistema profesional para la gestión y registro de marcas comerciales",
+    "stats": {
+      "totalBrands": "Total de Marcas",
+      "activeBrands": "Marcas Activas"
+    }
+  },
+  "dashboard": {
+    "overview": {
+      "title": "Estadísticas Generales",
+      "totalTrademarks": "Total de Marcas",
+      "activeBrands": "Marcas Activas",
+      "pendingBrands": "Marcas Pendientes"
+    },
+    "analytics": {
+      "title": "Análisis Detallado",
+      "description": "Herramientas avanzadas de análisis y reportes"
+    },
+    "reports": {
+      "title": "Reportes",
+      "description": "Herramientas avanzadas de análisis y reportes",
+      "actions": {
+        "generate": {
+          "title": "Generar Reporte",
+          "description": "Genera un reporte con los datos seleccionados"
+        },
+        "view": {
+          "title": "Ver Reportes",
+          "description": "Visualiza los reportes existentes"
+        },
+        "export": {
+          "title": "Exportar Reportes",
+          "description": "Exporta los reportes en varios formatos"
+        }
+      }
+    }
+  }
+}
