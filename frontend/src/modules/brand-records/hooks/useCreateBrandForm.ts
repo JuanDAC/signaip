@@ -1,15 +1,17 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { brandAPI } from '../api/brandAPI';
+import { useOfflineData } from '@/modules/shared/hooks/useOfflineData';
 import { useBrandsTranslation } from '@/modules/shared/hooks/useTranslation';
 
 export const useCreateBrandForm = () => {
     const [step, setStep] = useState(1);
     const [brandName, setBrandName] = useState('');
     const [owner, setOwner] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
     const { t } = useBrandsTranslation();
+    const { addBrand, isOnline, isBackendOffline } = useOfflineData();
 
     const handleNext = () => {
         if (step === 1 && brandName) {
@@ -27,18 +29,34 @@ export const useCreateBrandForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsSubmitting(true);
+        
         try {
             const lang = location.pathname.split('/').at(1) || 'es';
-            await brandAPI.create({ name: brandName, owner: owner, lang: lang, status: 'Pendiente' });
-            alert(t('success.brandCreated'));
+            await addBrand({ 
+                name: brandName, 
+                owner: owner, 
+                status: 'Pendiente' 
+            });
+            
+            const successMessage = isBackendOffline 
+                ? t('success.brandCreatedOffline') || 'Brand created offline. Will sync when backend is back.'
+                : t('success.brandCreated');
+                
+            alert(successMessage);
             router.push('/');
         } catch (error) {
-            alert(t('errors.networkError'));
+            const errorMessage = isBackendOffline 
+                ? t('errors.offlineError') || 'Failed to create brand offline'
+                : t('errors.networkError');
+                
+            alert(errorMessage);
             console.error(error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
-    
     const handleBrandNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBrandName(e.target.value);
     };
@@ -47,5 +65,17 @@ export const useCreateBrandForm = () => {
         setOwner(e.target.value);
     };
 
-    return { step, brandName, owner, handleBrandNameChange, handleOwnerChange, handleNext, handleBack, handleSubmit };
+    return { 
+        step, 
+        brandName, 
+        owner, 
+        isSubmitting,
+        isOnline,
+        isBackendOffline,
+        handleBrandNameChange, 
+        handleOwnerChange, 
+        handleNext, 
+        handleBack, 
+        handleSubmit 
+    };
 }

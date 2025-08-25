@@ -33,11 +33,29 @@
     "delete": "Delete Brand",
     "name": "Brand Name",
     "description": "Description",
-    "status": "Status",
     "registrationDate": "Registration Date",
     "expiryDate": "Expiry Date",
     "noBrands": "No brands found",
     "listTitle": "Brand List",
+    "status": {
+      "pending": "Pendiente",
+      "active": "Activa",
+      "cancelled": "Cancelada"
+    },
+    "success": {
+      "brandCreated": "Brand created successfully",
+      "brandUpdated": "Brand updated successfully",
+      "brandDeleted": "Brand deleted successfully"
+    },
+    "actions": {
+      "delete": "Delete",
+      "edit": "Edit",
+      "view": "View",
+      "create": "Create"
+    },
+    "errors": {
+      "networkError": "Network error"
+    },
     "form": {
       "name": "Brand Name",
       "description": "Description",

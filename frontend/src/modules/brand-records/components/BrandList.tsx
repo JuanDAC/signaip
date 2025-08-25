@@ -44,7 +44,6 @@ export const BrandList = () => {
                                             <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-sm sm:text-base">{index + 1}</td>
                                             <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-sm sm:text-base font-medium text-gray-900">{brand.name}</td>
                                             <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-sm sm:text-base text-gray-500">{brand.owner}</td>
-                                            <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-sm sm:text-base text-gray-500">{brand.lang}</td>
                                             <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap">
                                                 <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${brand.status === 'Aprobada' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                                     {brand.status}

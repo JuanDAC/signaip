@@ -1,42 +1,43 @@
-import { useState, useEffect } from 'react';
-import { Brand } from '../domain/types';
-import { brandAPI } from '../api/brandAPI';
+import { useOfflineData } from '@/modules/shared/hooks/useOfflineData';
 
 export const useBrandList = () => {
-    const [brands, setBrands] = useState<Brand[]>([]);
-    const [loading, setLoading] = useState(true);
-    
-    useEffect(() => {
-        const fetchMarcas = async () => {
-            try {
-                const data = await brandAPI.getAll();
-                setBrands(data);
-            } catch (error) {
-                console.error('Failed to fetch brands:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchMarcas();
-    }, []);
+    const { 
+        brands, 
+        isLoading: loading, 
+        error,
+        isOnline,
+        isBackendOffline,
+        deleteBrand, 
+        updateBrand,
+        refreshData 
+    } = useOfflineData();
 
     const handleDelete = async (id: string) => {
         try {
-            await brandAPI.remove(id);
-            setBrands(brands.filter(brand => brand.id !== id));
+            await deleteBrand(parseInt(id));
         } catch (error) {
             console.error('Failed to delete brand:', error);
+            throw error;
         }
     };
 
     const handleUpdate = async (id: string, newEstado: string) => {
         try {
-            const updatedBrand = await brandAPI.update(id, { status: newEstado });
-            setBrands(brands.map(b => b.id === id ? updatedBrand : b)); 
+            await updateBrand(parseInt(id), { status: newEstado });
         } catch (error) {
             console.error('Failed to update brand:', error);
+            throw error;
         }
     };
 
-    return { brands, loading, handleDelete, handleUpdate };
+    return { 
+        brands, 
+        loading, 
+        error,
+        isOnline,
+        isBackendOffline,
+        handleDelete, 
+        handleUpdate,
+        refreshData 
+    };
 }

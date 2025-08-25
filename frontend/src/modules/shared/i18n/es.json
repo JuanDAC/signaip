@@ -33,11 +33,29 @@
     "delete": "Eliminar Marca",
     "name": "Nombre de la Marca",
     "description": "Descripción",
-    "status": "Estado",
     "registrationDate": "Fecha de Registro",
     "expiryDate": "Fecha de Vencimiento",
     "noBrands": "No se encontraron marcas",
     "listTitle": "Lista de Marcas",
+    "status": {
+      "pending": "Pendiente",
+      "active": "Activa",
+      "cancelled": "Cancelada"
+    },
+    "success": {
+      "brandCreated": "Marca creada correctamente",
+      "brandUpdated": "Marca actualizada correctamente",
+      "brandDeleted": "Marca eliminada correctamente"
+    },
+    "actions": {
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "view": "Ver",
+      "create": "Crear"
+    },
+    "errors": {
+      "networkError": "Error de red"
+    },
     "form": {
       "name": "Nombre de la Marca",
       "description": "Descripción",

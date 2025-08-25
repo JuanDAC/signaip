@@ -20,7 +20,7 @@ export const Stepper = ({ currentStep }: { currentStep: number }) => {
                     </div>
                     <span className="ml-0 sm:ml-2 mr-0 sm:mr-4 text-gray-500 text-xs sm:text-sm text-center mt-1 sm:mt-0">{step}</span>
                     {index < steps.length - 1 && (
-                        <div className="hidden sm:block h-1 w-12 bg-gray-300 mx-2"></div>
+                        <div className="hidden sm:block h-1 w-4 bg-gray-300 mx-2"></div>
                     )}
                 </div>
             ))}
