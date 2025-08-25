@@ -2,21 +2,22 @@ import { useTranslation } from "@/modules/shared/hooks/useTranslation";
 import { getNavigationMenu } from '../../shared/i18n/routes';
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-export 
+
+interface NavigationAction {
+  key: string;
+  path: string;
+  title: string;
+  description: string;
+}
+
 interface NavigationItem {
   key: string;
   path: string;
   title: string;
   description: string;
   icon: string;
-  actions?: Array<{
-    key: string;
-    path: string;
-    title: string;
-    description: string;
-  }>;
+  actions?: NavigationAction[];
 }
-
 
 export const useNavigationMenu = () => {
     const { locale } = useTranslation();
@@ -43,7 +44,7 @@ export const useNavigationMenu = () => {
   
     const hasActions = (item: NavigationItem) => item.actions && item.actions.length > 0;
   
-    const getActionPath = (item: NavigationItem, action: NavigationItem['actions'][number]) => `/${locale}/${item.path}/${action.path}`;
+    const getActionPath = (item: NavigationItem, action: NavigationAction) => `/${locale}/${item.path}/${action.path}`;
   
     return { menuItems, loading, isActive, hasActions, getActionPath };
   }
